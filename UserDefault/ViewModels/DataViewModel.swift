@@ -41,5 +41,13 @@ class DataViewModel: ObservableObject {
         itemArray.append(item)
         
     }
+ 
+    func updateItem(item: DataModel){
+        if let index = itemArray.firstIndex(where: { $0.id == item.id}) {
+            itemArray[index] = item.updateCompletion()
+        }
+    }
+    
+    
     
 }

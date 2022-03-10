@@ -18,6 +18,11 @@ struct ContentView: View {
             List{
                 ForEach(dataViewModel.itemArray){ item in
                     CustomCell(isCompleted: item.isCompleted, text: item.text)
+                        .onTapGesture {
+                            withAnimation(.linear) {
+                                dataViewModel.updateItem(item: item)
+                            }
+                        }
                    
                 }
                 .onMove(perform: dataViewModel.moveItem)
