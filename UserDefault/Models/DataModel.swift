@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DataModel:Identifiable {
+struct DataModel:Identifiable, Codable {
     var id = UUID().uuidString
     var text: String
     var isCompleted: Bool

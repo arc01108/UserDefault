@@ -9,18 +9,29 @@ import Foundation
 
 class DataViewModel: ObservableObject {
     
-    @Published var itemArray = [DataModel]()
+    @Published var itemArray : [DataModel] = []{
+        didSet{
+            saveItem()
+        }
+    }
+                                
+    let itemKeys = "item_array"
     
     init(){
         getItem()
     }
     
     func getItem(){
-        let newItems = [DataModel(text: "Hello", isCompleted: true),
-                        DataModel(text: "Good Morning", isCompleted: false),
-                        DataModel(text: "araya", isCompleted: false)
-        ]
-        itemArray.append(contentsOf: newItems)
+//        let newItems = [DataModel(text: "Hello", isCompleted: true),
+//                        DataModel(text: "Good Morning", isCompleted: false),
+//                        DataModel(text: "araya", isCompleted: false)
+//        ]
+//        itemArray.append(contentsOf: newItems)
+        guard
+            let data = UserDefaults.standard.data(forKey: itemKeys),
+            let dataItems = try? JSONDecoder().decode([DataModel].self, from: data) else{return}
+        
+        self.itemArray = dataItems
 
     }
  
@@ -48,6 +59,14 @@ class DataViewModel: ObservableObject {
         }
     }
     
+    func saveItem(){
+        
+        if let encodeData = try?JSONEncoder().encode(itemArray){
+            UserDefaults.standard.set(encodeData, forKey: itemKeys)
+        }
+            
+        
+    }
     
     
 }
